@@ -1,0 +1,13 @@
+1. Запустить контейнер с БД, отличной от mariaDB, используя инструкции на сайте: https://hub.docker.com/
+sudo docker run -h hw --name hw -e MYSQL_ROOT_PASSWORD=1 -d -v /hw:/var/lib/mysql mysql
+
+2. Добавить в контейнер hostname такой же, как hostname системы через переменную
+sudo docker run -it -h ${HOSTNAME} --name wh ubuntu
+
+3. Заполнить БД данными через консоль
+sudo docker exec -it mysql bash
+mysql -u root -p
+create database hw;
+
+4. Запустить phpmyadmin (в контейнере) и через веб проверить, что все введенные данные доступны
+sudo docker run --name php -d --link hw:db -p 8080:80 phpmyadmin/phpmyadmin
