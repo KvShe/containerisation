@@ -1,0 +1,29 @@
+1. Запустить контейнер с ubuntu, используя механизм LXC
+sudo lxc-create -n hw -t download 
+ubuntu
+jammy
+amd64
+
+sudo lxc-start -d -n hw
+sudo lxc-attach -n hw
+
+2. Ограничить контейнер 256 Мб ОЗУ и проверить, что ограничение работает
+sudo lxc-stop -n hw
+sudo nano /var/lib/lxc/hw/config
+
+lxc.cgroup2.memory.max = 256M
+lxc.start.auto = 1
+
+sudo lxc-start -n hw
+sudo lxc-attach -n hw 
+
+3. Добавить автозапуск контейнеру, перезагрузить ОС и убедиться, что контейнер действительно запустился самостоятельно
+sudo lxc-ls -f
+
+4. При создании указать файл, куда записывать логи
+lxc-start -n hw --logfile /log.log
+
+6.
+sudo nano /var/lib/lxc/hw/config
+lxc.net.0.ipv4.address = 10.0.0.10/24 
+
